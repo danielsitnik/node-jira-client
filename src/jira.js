@@ -971,7 +971,7 @@ export default class JiraApi {
     const header = {
       uri: this.makeUri({
         pathname: `/issue/${issueId}/worklog`,
-        query: { adjustEstimate: 'new', newEstimate },
+        query: { adjustEstimate: 'auto', newEstimate },
       }),
       body: worklog,
       method: 'POST',
@@ -980,6 +980,18 @@ export default class JiraApi {
     };
 
     return this.doRequest(header);
+  }
+  
+  /** Get worklog from issue
+   * [Jira Doc](https://developer.atlassian.com/cloud/jira/platform/rest/v2/#api-api-2-issue-issueIdOrKey-worklog-id-get)
+   * @name getWorklog
+   * @function
+   * @param {string} issueId - the Id of the issue to get the worklog from
+   */
+  getWorklog(issueNumber) {
+    return this.doRequest(this.makeRequestHeader(this.makeUri({
+      pathname: '/issue/' + issueNumber + '/worklog'
+    })));
   }
 
   /** Delete worklog from issue
